@@ -75,25 +75,6 @@ Ending words
 
 - The ABR installs a Null0 route for the summary prefix to prevent loops at Layer 3. This is done to ensure that traffic matching the summary, but not any specific subnet, is discarded. Looping would otherwise occur since the summary can include more addresses that actually exists. Without this protection traffic destined for a host that do not exist, would still be routed back and forth between routes, and thus creating a loop.
 
-
-
-LAB
-
-E1 (ABR + ASBR)
-
-redistribute DMZ hosts 10.99.0.0
-
-summarize area 10,20,30
-
-R1 
-
-```
-R1# show ip interface brief 
-Interface     IP-Address       OK?
-Eth0/0        10.20.0.2        YES
-Eth0/1        10.20.1.1        YES
-Eth0/2        10.20.2.1        YES
-Eth0/3        10.20.3.1        YES
-Loopback0     10.10.10.10      YES
-```
+## Lab
+Link to the lab: [Summarization Lab](https://github.com/dannebrob/CML-bitsize-labs/blob/main/labs/ospf/01-summarization/OSPF-Summarization-Lab.md)
 
