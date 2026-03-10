@@ -38,12 +38,31 @@ If the area contains a ABR that is configured as a stub, the following happens:
 In a Larger enterprice network, with many branch offices, it can be beneficial to use stub areas for the branch offices, since they typically do not need to know about the entire topology of the network, but only how to reach the rest of the network. The branch office only need to know a way out to the rest of the network, and thus a default route is sufficient for them.
 Depending on the requirements of the branch office, a standard stub area or a totally stubby area can be used. If the branch office needs to have some external routes advertised within the area, then a NSSA can be used instead. So mixing te different types of stub areas can be a good way to optimize the network design and performance, while still meeting the specific needs of each area.
 
-**The configuration of a stub**
+**Virtual links**
+All areas in an OSPF Autonomous system must be physically connected to the area 0, backbone area. In some cases a physical lik is not possible, then you can use a virtual link to connect two parts of a partitioned backbone trough a non-backbone area. Virual links are also known as transit area and must have full routing information, hence it cant be a stub area. 
+`area area-id virtual-link router-id`
+
+**Config a stub area**
+Use the `area xx stub` command on every router in the area to define an area as a stub area. An exampel is to configure all routers in area 7: `area 7 stub`.
+
+**Config a Totally Stub Area**
+`area xx stub no-summary` will configure a Totally Stub area. An example is to configure all routers in area 8: `area 8 stub no-summary`
+
+**Config a Not-So-Stubby Area**
+`area xx nssa`
+
+
+**Config a NSSA**
+`area xx nssa no-summary`
+
+
 
 
 ### Lab
 
 ## Resources
+
+Cisco: [Uncerstand OSPF](https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/13703-8.html)
 
 TelecomTech: [Understand OSPF Stub Areas](https://www.youtube.com/watch?v=ZhpDVWQ4c9g)
 
