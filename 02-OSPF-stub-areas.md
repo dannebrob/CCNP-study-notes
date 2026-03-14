@@ -33,14 +33,30 @@ If the area contains a ABR that is configured as a stub, the following happens:
 
 
 **What are the usecases for stub areas?**
-- Its difficult to see the benefit of using stub areas in a small network, but in larger enterprise networks with many routers and routes, it can be very beneficial to use stub areas to reduce the size of the LSDBs and routing tables, and to reduce the amount of LSA flooding. At this scale, the benefits of using stub areas can be significant in terms of improving network performance and stability.
+<br>
+Its difficult to see the benefit of using stub areas in a small network, but in larger enterprise networks with many routers and routes, it can be very beneficial to use stub areas to reduce the size of the LSDBs and routing tables, and to reduce the amount of LSA flooding. At this scale, the benefits of using stub areas can be significant in terms of improving network performance and stability.
 
 In a Larger enterprice network, with many branch offices, it can be beneficial to use stub areas for the branch offices, since they typically do not need to know about the entire topology of the network, but only how to reach the rest of the network. The branch office only need to know a way out to the rest of the network, and thus a default route is sufficient for them.
 Depending on the requirements of the branch office, a standard stub area or a totally stubby area can be used. If the branch office needs to have some external routes advertised within the area, then a NSSA can be used instead. So mixing te different types of stub areas can be a good way to optimize the network design and performance, while still meeting the specific needs of each area.
 
 **Virtual links**
+<br>
 All areas in an OSPF Autonomous system must be physically connected to the area 0, backbone area. In some cases a physical lik is not possible, then you can use a virtual link to connect two parts of a partitioned backbone trough a non-backbone area. Virual links are also known as transit area and must have full routing information, hence it cant be a stub area. 
+`router ospf 1` followed by:
 `area area-id virtual-link router-id`
+
+Example of configuring Virtual links:
+- a virtual link between two ABRs with router IDs
+Router with router ID 1.1.1.1: `area 1 virtual-link 2.2.2.2` 
+router with router ID 2.2.2.2: `area 1 virtual-link 1.1.1.1`
+In this example, the virtual link is configured in area 1, which is a non-backbone area, and it connects the two ABRs with router IDs 1.1.1.1 and 2.2.2.2.
+Router 2.2.2.2 is an ABR that is connected to both area 0 and area 1, and router 1.1.1.1 is an ABR that have a physical connection to other areas but not to area 0, and thus needs the virtual link to connect to the backbone area.
+
+<figure>
+  <img src="https://www.cisco.com/c/dam/en/us/support/docs/ip/open-shortest-path-first-ospf/13703-8-02.gif" alt="OSPF virtual link example diagram">
+  <figcaption>OSPF virtual link example — image © Cisco</figcaption>
+</figure>
+
 
 **Config a stub area**
 Use the `area xx stub` command on every router in the area to define an area as a stub area. An exampel is to configure all routers in area 7: `area 7 stub`.
@@ -54,8 +70,6 @@ Use the `area xx stub` command on every router in the area to define an area as 
 
 **Config a NSSA**
 `area xx nssa no-summary`
-
-
 
 
 ### Lab
